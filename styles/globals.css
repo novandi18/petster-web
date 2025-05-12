@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-light-gray: #f6f6f6;
+  --color-dark-gray: #232323;
+  --color-lime-green: #88d085;
+  --color-red: #d91b34;
+  --color-blue: #2669db;
+  --color-teal-green: #1e8d6e;
+}
+
+:root {
+  font-family: "Albert Sans", sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
