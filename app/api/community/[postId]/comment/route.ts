@@ -1,12 +1,14 @@
 import { addComment, deleteComment } from "@/lib/firestore/communityFirestore";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(
-  req: Request,
-  { params }: { params: { postId: string } },
-) {
+function getPostId(req: NextRequest) {
+  const segments = new URL(req.url).pathname.split("/");
+  return segments[3];
+}
+
+export async function POST(req: NextRequest) {
   try {
-    const { postId } = params;
+    const postId = getPostId(req);
     const {
       authorId,
       authorType,
@@ -17,6 +19,7 @@ export async function POST(
     if (!postId || !authorId || !authorType || !commentText) {
       return NextResponse.json(
         {
+          status: "error",
           error:
             "Missing required fields: postId, authorId, authorType, or comment",
         },
@@ -49,17 +52,15 @@ export async function POST(
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { postId: string } },
-) {
+export async function DELETE(req: NextRequest) {
   try {
-    const { postId } = params;
+    const postId = getPostId(req);
     const { commentId } = await req.json();
 
     if (!postId || !commentId) {
       return NextResponse.json(
         {
+          status: "error",
           error: "Missing required fields: postId or commentId",
         },
         { status: 400 },
