@@ -2,12 +2,15 @@ import { getPetById } from "@/lib/firestore/petFirestore";
 import { Metadata } from "next";
 import PetClient from "./page.client";
 
+type MetadataProps = Promise<{ id: string }>;
+
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: MetadataProps;
 }): Promise<Metadata> {
-  const result = await getPetById(params.id);
+  const { id } = await params;
+  const result = await getPetById(id);
   const pet = result.status === "success" ? result.data.pet : null;
   const name = pet?.name ?? "Pet";
 
@@ -34,6 +37,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
-  return <PetClient id={params.id} />;
+type PageProps = {
+  params: PageParams;
+};
+
+type PageParams = Promise<{ id: string }>;
+
+export default async function Page(props: PageProps) {
+  const { id } = await props.params;
+  return <PetClient id={id} />;
 }
