@@ -19,6 +19,7 @@
 
 # production
 /build
+/hosting
 
 # misc
 .DS_Store
@@ -39,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.firebase
+.firebaserc
+.firebase.json
+.firestore.rules
+.firebase.indexes.json
