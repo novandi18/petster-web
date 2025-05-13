@@ -64,6 +64,7 @@ export default function FavoriteClient() {
     if (!authLoading) {
       fetchFavorites(currentPage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoading, user?.data?.id, currentPage]);
 
   const handlePageChange = (page: number) => {

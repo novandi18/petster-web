@@ -26,6 +26,7 @@ export default function AssistantClient() {
     } else if (!authLoading) {
       setInitialLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoading, user]);
 
   useEffect(() => {

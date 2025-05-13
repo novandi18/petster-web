@@ -116,6 +116,7 @@ export default function ExploreClient() {
     if (!authLoading) {
       fetchPets();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, currentPage, user?.data, authLoading]);
 
   useEffect(() => {
@@ -129,6 +130,7 @@ export default function ExploreClient() {
     if (newPage !== currentPage) {
       setCurrentPage(newPage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleFavoriteToggle = async (petId: string, isFavorite: boolean) => {

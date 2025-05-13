@@ -54,6 +54,7 @@ export function YourPetsClient() {
       .finally(() => {
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoading, user, currentPage]);
 
   if (authLoading || loading) {
