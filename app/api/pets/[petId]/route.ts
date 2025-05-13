@@ -8,109 +8,89 @@ import { PetDetail } from "@/types/interfaces/PetDetail";
 import { Response } from "@/types/interfaces/Response";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { petId: string } },
-) {
-  const { petId } = await params;
-  const { searchParams } = new URL(req.url);
+function extractPetId(req: NextRequest) {
+  const segments = new URL(req.url).pathname.split("/");
+  return segments[3];
+}
 
-  const shelterId = searchParams.get("shelterId") || undefined;
+export async function GET(req: NextRequest) {
+  const petId = extractPetId(req);
+  const shelterId = new URL(req.url).searchParams.get("shelterId") ?? undefined;
+
+  if (!petId) {
+    return NextResponse.json({ error: "petId is required" }, { status: 400 });
+  }
 
   const result: Response<PetDetail> = await getPetById(petId, shelterId);
-
   if (result.status === "success") {
     return NextResponse.json(result.data, { status: 200 });
-  } else if (result.status === "error") {
-    return NextResponse.json({ error: result.error }, { status: 400 });
   }
-
-  return NextResponse.json({ error: "Unknown error" }, { status: 500 });
+  return NextResponse.json(
+    { error: result.status === "error" ? result.error : "Unexpected error" },
+    { status: 400 },
+  );
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { petId: string } },
-) {
-  const { petId } = params;
+export async function DELETE(req: NextRequest) {
+  const petId = extractPetId(req);
   if (!petId) {
     return NextResponse.json({ error: "petId is required" }, { status: 400 });
   }
 
-  try {
-    const result = await deletePetById(petId);
-    if (result.status === "error") {
-      return NextResponse.json({ error: result.error }, { status: 500 });
-    }
+  const result = await deletePetById(petId);
+  if (result.status === "success") {
     return NextResponse.json({ message: result.data }, { status: 200 });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
+  }
+  return NextResponse.json(
+    { error: result.status === "error" ? result.error : "Unexpected error" },
+    { status: 500 },
+  );
+}
+
+export async function PATCH(req: NextRequest) {
+  const petId = extractPetId(req);
+  if (!petId) {
+    return NextResponse.json({ error: "petId is required" }, { status: 400 });
+  }
+
+  const { volunteerId, ...data } = await req.json();
+  if (!volunteerId) {
     return NextResponse.json(
-      { error: msg || "Internal server error" },
-      { status: 500 },
+      { error: "volunteerId is required" },
+      { status: 400 },
     );
   }
+
+  const result = await updatePet(volunteerId, petId, data);
+  if (result.status === "success") {
+    return NextResponse.json({ message: result.data }, { status: 200 });
+  }
+  return NextResponse.json(
+    { error: result.status === "error" ? result.error : "Unexpected error" },
+    { status: 500 },
+  );
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { petId: string } },
-) {
-  const { petId } = params;
+export async function POST(req: NextRequest) {
+  const petId = extractPetId(req);
   if (!petId) {
     return NextResponse.json({ error: "petId is required" }, { status: 400 });
   }
 
-  try {
-    const body = await req.json();
-    const { volunteerId, ...data } = body;
-    if (!volunteerId) {
-      return NextResponse.json(
-        { error: "volunteerId is required" },
-        { status: 400 },
-      );
-    }
+  const { shelterId } = await req.json();
+  if (!shelterId) {
+    return NextResponse.json(
+      { error: "shelterId is required" },
+      { status: 400 },
+    );
+  }
 
-    const result = await updatePet(volunteerId, petId, data);
-    if (result.status === "error") {
-      return NextResponse.json({ error: result.error }, { status: 500 });
-    }
+  const result = await addPetView(petId, shelterId);
+  if (result.status === "success") {
     return NextResponse.json({ message: result.data }, { status: 200 });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: msg }, { status: 500 });
   }
-}
-
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { petId: string } },
-) {
-  const { petId } = params;
-  if (!petId) {
-    return NextResponse.json({ error: "petId is required" }, { status: 400 });
-  }
-
-  try {
-    const body = await req.json();
-    const { shelterId } = body;
-
-    if (!shelterId) {
-      return NextResponse.json(
-        { error: "shelterId is required" },
-        { status: 400 },
-      );
-    }
-
-    const result = await addPetView(petId, shelterId);
-
-    if (result.status === "error") {
-      return NextResponse.json({ error: result.error }, { status: 500 });
-    }
-
-    return NextResponse.json({ message: result.data }, { status: 200 });
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: msg }, { status: 500 });
-  }
+  return NextResponse.json(
+    { error: result.status === "error" ? result.error : "Unexpected error" },
+    { status: 500 },
+  );
 }
