@@ -5,10 +5,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Page Not Found | Petster",
   description: "The page you're looking for doesn't exist or has been moved.",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  robots: { index: false, follow: false },
 };
 
 export default function NotFound() {
