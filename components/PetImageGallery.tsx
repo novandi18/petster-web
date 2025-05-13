@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import ImageZoom from "./ImageZoom";
 import { PetImage } from "@/types/interfaces/PetImage";
 
@@ -54,11 +53,11 @@ export default function PetImageGallery({
                 : "border-transparent hover:border-gray-300 dark:hover:border-gray-600"
             }`}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={url}
               alt={`Thumbnail ${idx + 1}`}
-              fill
-              className="object-cover object-center"
+              className="h-full w-full object-cover object-center"
             />
           </button>
         ))}

@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { PetCardProps } from "@/types/components/PetCardProps";
@@ -36,11 +36,10 @@ export default function PetCard({
   return (
     <Link href={href} className="relative block overflow-hidden rounded-3xl">
       <div className="relative aspect-[1/1.5] overflow-hidden">
-        <Image
+        <img
           src={imageUrl}
           alt={name}
-          fill
-          className="object-cover object-center"
+          className="h-full w-full object-cover object-center"
         />
 
         {viewCount > 0 && (

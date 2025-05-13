@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useRef } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import Image from "next/image";
 
 export interface MultiImageUploaderProps {
   images: string[];
@@ -86,12 +86,10 @@ export default function MultiImageUploader({
             key={idx}
             className="group relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-gray-300 bg-gray-100"
           >
-            <Image
+            <img
               src={src}
               alt={`upload-${idx}`}
-              fill
-              unoptimized
-              style={{ objectFit: "cover" }}
+              className="h-full w-full object-cover object-center"
             />
             <div className="bg-opacity-0 group-hover:bg-opacity-30 absolute inset-0 transition" />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">

@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import Image from "next/image";
 
 type ImageZoomProps = {
   src: string;
@@ -46,12 +46,11 @@ export default function ImageZoom({
 
   return (
     <>
-      <Image
+      <img
         src={src}
         alt={alt}
-        className={`cursor-pointer ${className}`}
+        className={`cursor-pointer object-cover object-center ${className}`}
         onClick={() => setIsOpen(true)}
-        fill
       />
 
       {isOpen && (
@@ -85,7 +84,7 @@ export default function ImageZoom({
             </button>
           </div>
 
-          <Image
+          <img
             src={src}
             alt={alt}
             style={{
