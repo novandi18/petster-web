@@ -52,6 +52,7 @@ export default function LoginForm({
         <p className="mb-2 text-center text-sm text-red-600">{errorMessage}</p>
       )}
       <EmailInput
+        label="Email"
         value={email}
         onChange={setEmail}
         onBlur={validate}

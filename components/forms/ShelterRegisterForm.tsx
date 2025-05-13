@@ -85,6 +85,7 @@ export default function ShelterRegisterForm({
         disabled={loading}
       />
       <EmailInput
+        label="Email"
         value={email}
         onChange={setEmail}
         onBlur={validate}
