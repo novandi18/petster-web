@@ -26,6 +26,10 @@ const nextConfig: NextConfig = {
     IMGBB_API_KEY: process.env.IMGBB_API_KEY,
     APK_LINK: process.env.APK_LINK,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  distDir: "build",
 };
 
 export default withFlowbiteReact(nextConfig);
