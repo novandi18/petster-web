@@ -41,13 +41,6 @@ Looking for the Android version of Petster? Check out the [Petster Android Repos
 - [Axios](https://axios-http.com/) – HTTP Client
 - [React Markdown](https://github.com/remarkjs/react-markdown) – Render Markdown Content
 
-## Development
+## Demo
 
-To run the project locally:
-
-```bash
-git clone https://github.com/novandi18/petster-web.git
-cd petster-web
-npm install
-npm run dev
-```
+[https://petster-1098613385318.asia-southeast2.run.app/](https://petster-1098613385318.asia-southeast2.run.app/)
