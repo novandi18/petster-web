@@ -1,8 +1,13 @@
-import { getPetById } from "@/lib/firestore/petFirestore";
+import { getAllPetIds, getPetById } from "@/lib/firestore/petFirestore";
 import { Metadata } from "next";
 import PetClient from "./page.client";
 
 type MetadataProps = Promise<{ id: string }>;
+
+export async function generateStaticParams() {
+  const ids = await getAllPetIds();
+  return ids.map((id) => ({ id }));
+}
 
 export async function generateMetadata({
   params,

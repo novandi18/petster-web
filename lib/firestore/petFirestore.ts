@@ -551,3 +551,8 @@ export async function addPetView(
     return Response.Error(`Failed to record pet view: ${msg}`);
   }
 }
+
+export async function getAllPetIds(): Promise<string[]> {
+  const snap = await getDocs(collection(db, "pets"));
+  return snap.docs.map((doc) => doc.id);
+}
